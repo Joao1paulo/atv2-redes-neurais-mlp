@@ -1,0 +1,1 @@
+"""Pacote da API de inferência do modelo MLPClassifier."""

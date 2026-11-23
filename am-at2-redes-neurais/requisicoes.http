@@ -1,0 +1,61 @@
+### 1. Metadados e Diagnóstico do Serviço
+GET http://127.0.0.1:8000/diagnostico/modelo
+User-Agent: Tester-Audit-Agent
+Accept: application/json
+
+### 2. Predição com Perfil A (Alto Risco Cardíaco -> "Risco Cardíaco")
+POST http://127.0.0.1:8000/predict
+User-Agent: Tester-Audit-Agent
+Content-Type: application/json
+
+{
+  "Age": 62,
+  "Sex": "M",
+  "ChestPainType": "ASY",
+  "RestingBP": 150,
+  "Cholesterol": 289,
+  "FastingBS": 1,
+  "RestingECG": "ST",
+  "MaxHR": 108,
+  "ExerciseAngina": "Y",
+  "Oldpeak": 2.6,
+  "ST_Slope": "Flat"
+}
+
+### 3. Predição com Perfil B (Baixo Risco / Paciente Saudável -> "Normal")
+POST http://127.0.0.1:8000/predict
+User-Agent: Tester-Audit-Agent
+Content-Type: application/json
+
+{
+  "Age": 34,
+  "Sex": "F",
+  "ChestPainType": "ATA",
+  "RestingBP": 118,
+  "Cholesterol": 195,
+  "FastingBS": 0,
+  "RestingECG": "Normal",
+  "MaxHR": 174,
+  "ExerciseAngina": "N",
+  "Oldpeak": 0.0,
+  "ST_Slope": "Up"
+}
+
+### 4. Predição com Entrada Inválida (Validação Pydantic -> Erro HTTP 422)
+POST http://127.0.0.1:8000/predict
+User-Agent: Tester-Audit-Agent
+Content-Type: application/json
+
+{
+  "Age": "idade_invalida",
+  "Sex": "X",
+  "ChestPainType": "ASY",
+  "RestingBP": 500,
+  "Cholesterol": 240,
+  "FastingBS": 0,
+  "RestingECG": "Normal",
+  "MaxHR": 150,
+  "ExerciseAngina": "N",
+  "Oldpeak": 0.5,
+  "ST_Slope": "Up"
+}
